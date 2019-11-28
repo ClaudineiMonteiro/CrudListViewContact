@@ -1,12 +1,17 @@
-﻿using System;
+﻿using LanceUpContactList.Models;
+using LanceUpContactList.Services.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Xamarin.Forms;
 
 namespace LanceUpContactList.ViewModels
 {
 	public class BaseViewModel : INotifyPropertyChanged
 	{
+		public IContactService<Contact> ContactService => DependencyService.Get<IContactService<Contact>>();
+
 		bool isBusy = false;
 		public bool IsBusy
 		{

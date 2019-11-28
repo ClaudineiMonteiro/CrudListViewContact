@@ -4,12 +4,13 @@ using System.Threading.Tasks;
 
 namespace LanceUpContactList.Services.Interfaces
 {
-	public interface IContactService
+	public interface IContactService<T>
 	{
-		Task<bool> AddAsync(Contact contact);
-		Task<bool> UpdateAsync(Contact Contact);
+		Task<bool> AddAsync(T entity);
+		Task<bool> UpdateAsync(T entity);
 		Task<bool> DeleteAsync(string phone);
-		Task<Contact> GetAsync(string phone);
-		Task<IEnumerable<Contact>> ListAsync(bool forceRefresh = false);
+		Task<T> GetAsync(string phone);
+		Task<IEnumerable<T>> ListAsync();
+		Task<bool> SaveAsync(T entity);
 	}
 }

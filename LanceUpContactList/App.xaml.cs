@@ -1,7 +1,6 @@
 ﻿using LanceUpContactList.Services;
-using System;
+using LanceUpContactList.Views;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace LanceUpContactList
 {
@@ -13,7 +12,7 @@ namespace LanceUpContactList
 
 			DependencyService.Register<ContactService>();
 
-			MainPage = new MainPage();
+			MainPage = new NavigationPage(new ContactListPage());
 		}
 
 		protected override void OnStart()

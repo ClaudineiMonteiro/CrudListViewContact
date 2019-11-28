@@ -10,7 +10,7 @@ namespace LanceUpContactList.Services
 	{
 		private readonly INotifier _notifier;
 
-		public BaseService(INotifier notifier)
+		protected BaseService(INotifier notifier)
 		{
 			_notifier = notifier;
 		}
