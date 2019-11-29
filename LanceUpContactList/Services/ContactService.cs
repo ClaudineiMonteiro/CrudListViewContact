@@ -1,11 +1,15 @@
 ﻿using FluentValidation;
+using LanceUpContactList.Helpers;
 using LanceUpContactList.Models;
 using LanceUpContactList.Notifications.Interfaces;
 using LanceUpContactList.Services.Interfaces;
 using LanceUpContactList.Validations;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,11 +21,12 @@ namespace LanceUpContactList.Services
 
 		public ContactService()
 		{
-			Contacts = new List<Contact>()
-			{
-				new Contact{Id = Guid.NewGuid(), Phone = "9545041300", Name = "Claudinei Monteiro", RegistrationDate = DateTime.Now},
-				new Contact{Id = Guid.NewGuid(), Phone = "9545051914", Name = "Sora Lub", RegistrationDate = DateTime.Now}
-			};
+			//Contacts = new List<Contact>()
+			//{
+			//	new Contact{Id = Guid.NewGuid(), Phone = "9545041300", Name = "Claudinei Monteiro", RegistrationDate = DateTime.Now},
+			//	new Contact{Id = Guid.NewGuid(), Phone = "9545051914", Name = "Sora Lub", RegistrationDate = DateTime.Now}
+			//};
+			RestoreFile();
 		}
 
 		public async Task<bool> AddAsync(Contact contact)
@@ -73,7 +78,28 @@ namespace LanceUpContactList.Services
 				await UpdateAsync(contact);
 			}
 
+			SaveFile();
+
 			return await Task.FromResult(true);
+		}
+
+		public void SaveFile()
+		{
+			var teste = JsonHelper.Serializer<IEnumerable<Contact>>(Contacts);
+			StorageHelper.WriteFile("ContactList.json", teste);
+		}
+
+		public void RestoreFile()
+		{
+			string contactJson = StorageHelper.ReadFile("ContactList.json");
+
+			var contacts = JsonHelper.UnSerializer<IEnumerable<Contact>>(contactJson);
+
+			Contacts.Clear();
+			foreach (var contact in contacts)
+			{
+				Contacts.Add((Contact)contact);
+			}
 		}
 
 		private bool IsValid(Contact contact)

@@ -1,16 +1,21 @@
 ﻿using LanceUpContactList.Services;
 using LanceUpContactList.Views;
+using System;
+using System.IO;
 using Xamarin.Forms;
 
 namespace LanceUpContactList
 {
 	public partial class App : Application
 	{
+		public static string FolderPath { get; private set; }
 		public App()
 		{
 			InitializeComponent();
 
 			DependencyService.Register<ContactService>();
+
+			FolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
 
 			MainPage = new NavigationPage(new ContactListPage());
 		}
