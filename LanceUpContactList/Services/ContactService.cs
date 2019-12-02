@@ -1,16 +1,8 @@
-﻿using FluentValidation;
-using LanceUpContactList.Helpers;
+﻿using LanceUpContactList.Helpers;
 using LanceUpContactList.Models;
-using LanceUpContactList.Notifications.Interfaces;
 using LanceUpContactList.Services.Interfaces;
-using LanceUpContactList.Validations;
-using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.Serialization.Json;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LanceUpContactList.Services
@@ -99,31 +91,5 @@ namespace LanceUpContactList.Services
 				Contacts.Add((Contact)contact);
 			}
 		}
-
-		private bool IsValid(Contact contact)
-		{
-			bool isValid = true;
-
-			if (!PerformValidation(new ContactValidation(), contact)) isValid = false;
-
-			if (Contacts.FirstOrDefault(c => c.Phone == contact.Phone) == null)
-			{
-				isValid = false;
-			}
-
-			return isValid;
-		}
-
-		private bool PerformValidation<TV, TE>(TV validation, TE entity) where TV : AbstractValidator<TE> where TE : Entity
-		{
-			var validator = validation.Validate(entity);
-
-			if (validator.IsValid) return true;
-
-			//Notify(validator);
-
-			return false;
-		}
-
 	}
 }
