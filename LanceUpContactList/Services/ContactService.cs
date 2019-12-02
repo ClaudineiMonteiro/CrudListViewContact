@@ -21,11 +21,7 @@ namespace LanceUpContactList.Services
 
 		public ContactService()
 		{
-			//Contacts = new List<Contact>()
-			//{
-			//	new Contact{Id = Guid.NewGuid(), Phone = "9545041300", Name = "Claudinei Monteiro", RegistrationDate = DateTime.Now},
-			//	new Contact{Id = Guid.NewGuid(), Phone = "9545051914", Name = "Sora Lub", RegistrationDate = DateTime.Now}
-			//};
+			Contacts = new List<Contact>();
 			RestoreFile();
 		}
 
@@ -85,7 +81,7 @@ namespace LanceUpContactList.Services
 
 		public void SaveFile()
 		{
-			var teste = JsonHelper.Serializer<IEnumerable<Contact>>(Contacts);
+			var teste = JsonHelper.Serializer(Contacts);
 			StorageHelper.WriteFile("ContactList.json", teste);
 		}
 
@@ -93,7 +89,9 @@ namespace LanceUpContactList.Services
 		{
 			string contactJson = StorageHelper.ReadFile("ContactList.json");
 
-			var contacts = JsonHelper.UnSerializer<IEnumerable<Contact>>(contactJson);
+			if (string.IsNullOrWhiteSpace(contactJson)) return;
+
+			var contacts = JsonHelper.UnSerializer(contactJson);
 
 			Contacts.Clear();
 			foreach (var contact in contacts)
@@ -110,7 +108,6 @@ namespace LanceUpContactList.Services
 
 			if (Contacts.FirstOrDefault(c => c.Phone == contact.Phone) == null)
 			{
-				//Notify("There is already a Contact with this phone");
 				isValid = false;
 			}
 

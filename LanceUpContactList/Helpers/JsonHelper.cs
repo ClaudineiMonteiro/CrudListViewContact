@@ -10,19 +10,18 @@ namespace LanceUpContactList.Helpers
 {
 	public static class JsonHelper
 	{
-		public static string Serializer<T>(T obj)
+		public static string Serializer(IEnumerable<Contact> contact)
 		{
-			DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(T));
-			MemoryStream ms = new MemoryStream();
-			serializer.WriteObject(ms, obj);
-			return Encoding.UTF8.GetString(ms.ToArray());
+			string jsonString = string.Empty;
+			jsonString = JsonConvert.SerializeObject(contact, Formatting.Indented);
+			return jsonString;
 		}
 
-		public static IEnumerable<T> UnSerializer<T>(string jsonString)
+		public static IEnumerable<Contact> UnSerializer(string jsonString)
 		{
-			var teste = JsonConvert.DeserializeObject<IEnumerable<T>>(jsonString);
+			var contact = JsonConvert.DeserializeObject<IEnumerable<Contact>>(jsonString);
 
-			return teste;
+			return contact;
 		}
 	}
 }

@@ -9,6 +9,12 @@ namespace LanceUpContactList.Helpers
 		public static void WriteFile(string fileName, string writestr)
 		{
 			var localPath = Path.Combine(App.FolderPath, fileName);
+
+			if (File.Exists(localPath))
+			{
+				File.Delete(localPath);
+			}
+
 			File.WriteAllText(localPath, writestr);
 		}
 
@@ -16,10 +22,17 @@ namespace LanceUpContactList.Helpers
 		{
 			string jsonString = string.Empty;
 			var localPath = Path.Combine(App.FolderPath, fileName);
+
+			if (localPath == null || !File.Exists(localPath))
+			{
+				return jsonString;
+			}
+
 			using (var reader = new StreamReader(localPath))
 			{
 				jsonString = reader.ReadToEnd();
 			}
+
 			return jsonString;
 		}
 	}
