@@ -47,11 +47,7 @@ namespace LanceUpContactList.ViewModels
 			try
 			{
 				var contacts = await ContactService.ListAsync();
-				Contacts.Clear();
-				foreach (var contactItem in contacts)
-				{
-					Contacts.Add(contactItem);
-				}
+				Contacts = new ObservableCollection<Contact>(contacts);
 			}
 			catch (Exception ex)
 			{

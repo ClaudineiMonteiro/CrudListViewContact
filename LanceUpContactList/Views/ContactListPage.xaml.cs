@@ -38,6 +38,9 @@ namespace LanceUpContactList.Views
 			base.OnAppearing();
 
 			contactViewModel.LoadContactsCommand.Execute(null);
+
+			ContactsListView.ItemsSource = null;
+			ContactsListView.ItemsSource = contactViewModel.Contacts;
 		}
 
 		private async void Add_Clicked(object sender, EventArgs e)
